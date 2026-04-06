@@ -98,7 +98,7 @@ useEffect(() => {
 
   const fetchDemands = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/demand");
+      const response = await fetch("https://hrbackend-eight.vercel.app/api/demand");
       if (!response.ok) throw new Error("Failed to fetch demands");
       const data = await response.json();
       setDemands(data);
@@ -113,7 +113,7 @@ useEffect(() => {
   // Function to fetch selected candidates for a specific demand
   const fetchSelectedCandidates = async (demandId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/selected-candidates/${demandId}`);
+      const response = await axios.get(`https://hrbackend-eight.vercel.app/api/selected-candidates/${demandId}`);
 
       if (response.data.success) {
         console.log(`✅ Fetched ${response.data.data.length} selected candidates for demand ${demandId}`);
@@ -191,7 +191,7 @@ useEffect(() => {
 
       console.log("Sending PUT request with body:", requestBody);
 
-      const response = await axios.put(`http://localhost:5000/api/selected-candidates/status`, requestBody);
+      const response = await axios.put(`https://hrbackend-eight.vercel.app/api/selected-candidates/status`, requestBody);
 
       console.log("Response from server:", response.data);
 
@@ -231,7 +231,7 @@ useEffect(() => {
       const user = JSON.parse(localStorage.getItem("user")) || {};
       const changedBy = user.name || user.username || 'Unknown';
 
-      const response = await axios.put(`http://localhost:5000/api/selected-candidates/status`, {
+      const response = await axios.put(`https://hrbackend-eight.vercel.app/api/selected-candidates/status`, {
         candidateId: candidateId,
         demandId: selectedDemandId,
         status: newStatus,
@@ -371,7 +371,7 @@ useEffect(() => {
 
       console.log("📝 Sending demand data to backend:", demandToCreate);
 
-      const response = await fetch("http://localhost:5000/api/demand", {
+      const response = await fetch("https://hrbackend-eight.vercel.app/api/demand", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -419,7 +419,7 @@ useEffect(() => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/demand/${demandId}`, {
+      const response = await fetch(`https://hrbackend-eight.vercel.app/api/demand/${demandId}`, {
         method: "DELETE",
       });
 
@@ -626,7 +626,7 @@ const statusFilteredDemands = demands.filter((d) => {
       console.log("📝 Sending updated demand to backend:", JSON.stringify(updatedDemand, null, 2));
 
       const response = await fetch(
-        `http://localhost:5000/api/demand/${editedDemand.id}`,
+        `https://hrbackend-eight.vercel.app/api/demand/${editedDemand.id}`,
         {
           method: "PUT",
           headers: {
@@ -854,7 +854,7 @@ const statusFilteredDemands = demands.filter((d) => {
 
       console.log("📤 Sending status update:", statusRequest);
 
-      const statusResponse = await axios.put(`http://localhost:5000/api/selected-candidates/status`, statusRequest);
+      const statusResponse = await axios.put(`https://hrbackend-eight.vercel.app/api/selected-candidates/status`, statusRequest);
 
       if (statusResponse.data.success) {
         console.log("✅ Status updated successfully");
@@ -871,7 +871,7 @@ const statusFilteredDemands = demands.filter((d) => {
 
         console.log("📤 Managing zone entry:", zoneRequest);
 
-        await axios.post(`http://localhost:5000/api/zone/manage`, zoneRequest);
+        await axios.post(`https://hrbackend-eight.vercel.app/api/zone/manage`, zoneRequest);
 
         // STEP 3: Refresh the candidates list
         const updatedCandidates = await fetchSelectedCandidates(selectedDemandId);
@@ -1654,7 +1654,7 @@ outline-none"
                             <FileText size={14} className="text-gray-500" />
                             {candidate.resumePath || candidate.googleDriveViewLink ? (
                               <a
-                                href={candidate.googleDriveViewLink || `http://localhost:5000${candidate.resumePath}`}
+                                href={candidate.googleDriveViewLink || `https://hrbackend-eight.vercel.app${candidate.resumePath}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-blue-600 hover:underline"
