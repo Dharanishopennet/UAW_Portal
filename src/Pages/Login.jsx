@@ -50,7 +50,7 @@ const Login = () => {
     }
   };
 
- // In Login.jsx, modify the handleLogin function
+// Login.jsx - Updated handleLogin function
 const handleLogin = async (e) => {
   e.preventDefault();
 
@@ -59,43 +59,54 @@ const handleLogin = async (e) => {
   setIsSubmitting(true);
 
   try {
-    const res = await fetch("https://hrbackend-eight.vercel.app/api/login", {
+    console.log("Attempting login with:", { username: email });
+    
+    const response = await fetch("https://hrbackend-eight.vercel.app/api/login", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
       body: JSON.stringify({ username: email, password }),
     });
 
-    const data = await res.json();
+    console.log("Response status:", response.status);
+    
+    // Check if response is ok
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Login failed:", errorData);
+      alert(errorData.message || "Login failed");
+      return;
+    }
 
-    if (res.ok) {
-      // TRANSFORM THE USER DATA
+    const data = await response.json();
+    console.log("Login success:", data);
+
+    if (data.success) {
+      // Transform user data
       const userData = {
         ...data.user,
-        // Extract clientName from assignedClients if it exists
         clientName: data.user.assignedClients && data.user.assignedClients.length > 0 
           ? data.user.assignedClients[0] 
           : (data.user.clientName || null)
       };
       
-      // Save transformed user to localStorage
       localStorage.setItem("user", JSON.stringify(userData));
 
-      // Redirect based on user role
+      // Redirect based on role
       const userRole = userData.role;
-
       if (userRole === "Client Interviewer" || userRole === "Interviewer") {
         navigate("/demand");
-      } else if (userRole === "Admin" || userRole === "Recruiter") {
-        navigate("/home");
       } else {
         navigate("/home");
       }
     } else {
-      alert(data.message);
+      alert(data.message || "Login failed");
     }
   } catch (err) {
-    console.error("Login error:", err);
-    alert("Server error. Please try again later.");
+    console.error("Network error:", err);
+    alert(`Connection error: ${err.message}. Please check your internet connection.`);
   } finally {
     setIsSubmitting(false);
   }
