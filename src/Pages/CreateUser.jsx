@@ -31,7 +31,7 @@ const CreateUser = () => {
 
   const checkBackendStatus = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/users", {
+      const response = await fetch("https://hrbackend-eight.vercel.app/api/users", {
         method: "HEAD",
       });
       setApiStatus({ checking: false, online: response.ok });
@@ -84,7 +84,7 @@ const CreateUser = () => {
   const fetchUsers = async () => {
     try {
       console.log("📡 Fetching users from API...");
-      const response = await fetch("http://localhost:5000/api/users");
+      const response = await fetch("https://hrbackend-eight.vercel.app/api/users");
       console.log("📡 Response status:", response.status);
       
       if (!response.ok) {
@@ -119,7 +119,7 @@ const CreateUser = () => {
     try {
       setClientsLoading(true);
       console.log("📡 Fetching client names from demands...");
-      const response = await fetch("http://localhost:5000/api/demand/clients/list");
+      const response = await fetch("https://hrbackend-eight.vercel.app/api/demand/clients/list");
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -174,7 +174,7 @@ const CreateUser = () => {
         submitData.assignedClient = formData.assignedClients;
       }
 
-      const response = await fetch("http://localhost:5000/api/users", {
+      const response = await fetch("https://hrbackend-eight.vercel.app/api/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -241,7 +241,7 @@ const CreateUser = () => {
         console.log(`Updating user ${editingUser.username} - Role: ${formData.role}`);
       }
       
-      const response = await fetch(`http://localhost:5000/api/users/${encodeURIComponent(editingUser.username)}`, {
+      const response = await fetch(`https://hrbackend-eight.vercel.app/api/users/${encodeURIComponent(editingUser.username)}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -289,7 +289,7 @@ const CreateUser = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${encodeURIComponent(username)}`, {
+      const response = await fetch(`https://hrbackend-eight.vercel.app/api/users/${encodeURIComponent(username)}`, {
         method: "DELETE",
       });
 
@@ -376,7 +376,7 @@ const CreateUser = () => {
             <div className="text-center bg-white p-8 rounded-2xl shadow-xl">
               <div className="text-red-500 text-6xl mb-4">🔌</div>
               <h2 className="text-2xl font-bold text-gray-800 mb-2">Backend Not Reachable</h2>
-              <p className="text-gray-600 mb-4">Cannot connect to http://localhost:5000/</p>
+              <p className="text-gray-600 mb-4">Cannot connect to https://hrbackend-eight.vercel.app/</p>
               <p className="text-sm text-gray-500">Please make sure your backend server is running</p>
               <button
                 onClick={() => window.location.reload()}
