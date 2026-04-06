@@ -127,7 +127,7 @@ const handleLogin = async (e) => {
 <h1 className="text-2xl font-bold text-orange-500 mb-2">
   myuandwe
   <span className="ml-2 text-2xl font-bold text-slate-800 tracking-tight">
-    Knowledge Base
+    Knowledge
   </span>
 </h1>
 
